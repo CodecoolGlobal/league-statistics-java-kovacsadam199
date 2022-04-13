@@ -1,5 +1,8 @@
 package com.codecool.leaguestatistics;
 
+import com.codecool.leaguestatistics.model.Team;
+
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,4 +18,7 @@ public class Utils {
     public static int getRandomValue(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
+
+
+
 }

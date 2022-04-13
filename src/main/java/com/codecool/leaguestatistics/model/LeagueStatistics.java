@@ -1,6 +1,8 @@
 package com.codecool.leaguestatistics.model;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provides all necessary statistics of played season.
@@ -25,7 +27,10 @@ public class LeagueStatistics {
      * Gets team with the longest name
      */
     public static Team getTeamWithTheLongestName(List<Team> teams) {
-        throw new RuntimeException("getTeamWithTheLongestName method not implemented");
+        return teams.stream()
+                .sorted(Comparator.comparing(team -> team.getName().length()))
+                .collect(Collectors.toList())
+                .get(teams.size()-1);
     }
 
     /**
