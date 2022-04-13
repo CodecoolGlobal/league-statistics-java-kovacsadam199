@@ -1,7 +1,6 @@
 package com.codecool.leaguestatistics.model;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,14 +39,22 @@ public class LeagueStatistics {
      * @return Collection of selected Teams.
      */
     public static List<Team> getTopTeamsWithLeastLoses(List<Team> teams, int teamsNumber) {
-        throw new RuntimeException("getTopTeamsWithLeastLoses method not implemented");
+        Comparator<Team> compareByLoses = Comparator
+                .comparing(Team::getLoses)
+                .thenComparing(Team::getCurrentPoints, Comparator.reverseOrder());
+
+
+        teams = teams.stream().sorted(compareByLoses).collect(Collectors.toList());
+        return teams.subList(0,teamsNumber);
     }
 
     /**
      * Gets a player with the biggest goals number from each team.
      */
     public static List<Player> getTopPlayersFromEachTeam(List<Team> teams) {
-        throw new RuntimeException("getTopPlayersFromEachTeam method not implemented");
+        List<Player> topPlayers = new ArrayList<>();
+        teams.stream().forEach(team -> topPlayers.add(team.getBestPlayer()));
+        return topPlayers;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.codecool.leaguestatistics.controller;
 
 import com.codecool.leaguestatistics.factory.LeagueFactory;
+import com.codecool.leaguestatistics.model.Player;
 import com.codecool.leaguestatistics.model.Team;
 import com.codecool.leaguestatistics.view.Display;
 
@@ -18,8 +19,6 @@ public class Season {
         league = new ArrayList<>();
     }
 
-    private Display display;
-
     /**
      * Fills league with new teams and simulates all games in season.
      * After all games played calls table to be displayed.
@@ -28,7 +27,7 @@ public class Season {
         this.league = LeagueFactory.createLeague(6);
             playAllGames();
         sortLeagueByPoints();
-        display.printTable(league);
+        Display.printTable(league);
         // Call Display methods below
 
     }
@@ -71,7 +70,7 @@ public class Season {
                 team2.setLoses(team2.getLoses() + 1);
                 break;
         }
-        display.printMatchResult(team1, team2, scoreTeam1, scoreTeam2);
+        Display.printMatchResult(team1, team2, scoreTeam1, scoreTeam2);
     }
 
     /**
@@ -81,12 +80,10 @@ public class Season {
      * @return All goals scored by the team in current game
      */
     private int getScoredGoals(Team team) {
-        int score = team.getPlayers().stream()
+        List<Player> score = team.getPlayers().stream()
                 .filter(player -> player.hasScored())
-                .mapToInt(player -> player.getGoals())
-                .sum();
-        team.resetPlayerGoals();
-        return score;
+                        .collect(Collectors.toList());
+        return score.size();
     }
 
 

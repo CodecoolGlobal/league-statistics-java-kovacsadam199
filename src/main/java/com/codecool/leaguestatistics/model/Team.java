@@ -2,13 +2,14 @@ package com.codecool.leaguestatistics.model;
 
 import com.codecool.leaguestatistics.factory.NamesGenerator;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a team.
  */
 public class Team {
-    private int ZERO = 0;
     private String name;
     private Division division;
     private int wins;
@@ -29,7 +30,10 @@ public class Team {
      * Helper method that finds best player with most scored goals in team
      */
     public Player getBestPlayer() {
-        throw new RuntimeException("getBestPlayer method not implemented");
+        List<Player> team = players.stream()
+                .sorted(Comparator.comparing(player -> player.getGoals()))
+                .collect(Collectors.toList());
+        return team.get(team.size()-1);
     }
 
     /**
@@ -90,9 +94,5 @@ public class Team {
     @Override
     public String toString() {
         return   name;
-    }
-
-    public void resetPlayerGoals() {
-        players.stream().forEach(player -> player.setGoals(ZERO));   // TODO: ask if there is other way | How to call a function ?
     }
 }
