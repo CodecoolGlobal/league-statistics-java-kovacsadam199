@@ -12,14 +12,22 @@ public class LeagueStatistics {
      * Gets all teams with highest points order, if points are equal next deciding parameter is sum of goals of the team.
      */
     public static List<Team> getAllTeamsSorted(List<Team> teams) {
-        throw new RuntimeException("getAllTeamsSorted method not implemented");
+        Comparator<Team> compareByPoints = Comparator
+                .comparing(Team::getCurrentPoints, Comparator.reverseOrder())
+                .thenComparing(team -> team.getPlayers()
+                        .stream().mapToInt(Player::getGoals).sum(), Comparator.reverseOrder());
+        teams = teams.stream().sorted(compareByPoints).collect(Collectors.toList());
+        return teams;
     }
 
     /**
      * Gets all players from each team in one collection.
      */
     public static List<Player> getAllPlayers(List<Team> teams) {
-        throw new RuntimeException("getAllPlayers method not implemented");
+
+        return teams.stream()
+                .flatMap(team -> team.getPlayers().stream())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -45,7 +53,7 @@ public class LeagueStatistics {
 
 
         teams = teams.stream().sorted(compareByLoses).collect(Collectors.toList());
-        return teams.subList(0,teamsNumber);
+        return teams.subList(0, Math.min(teamsNumber, teams.size()));
     }
 
     /**
