@@ -101,6 +101,11 @@ public class LeagueStatistics {
      * If there is more than one division with the same amount current points, then check the amounts of wins.
      */
     public static Division getStrongestDivision(List<Team> teams) {
-        throw new RuntimeException("getStrongestDivision method not implemented");
+        Comparator<Team> compareByPoints = Comparator
+                .comparing(Team::getCurrentPoints, Comparator.reverseOrder())
+                .thenComparing(team -> team.getWins(), Comparator.reverseOrder());
+        teams = teams.stream().sorted(compareByPoints).collect(Collectors.toList());
+        return teams.get(0).getDivision();
+
     }
 }
