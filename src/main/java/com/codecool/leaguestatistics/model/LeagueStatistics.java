@@ -92,7 +92,13 @@ public class LeagueStatistics {
      * Gets the player with the highest skill rate for given Division.
      */
     public static Player getMostTalentedPlayerInDivision(List<Team> teams, Division division) {
-        throw new RuntimeException("getMostTalentedPlayerInDivision method not implemented");
+
+
+       Player topPlayer = teams.stream().filter(team -> team.getDivision() == division)
+                .flatMap(team -> team.getPlayers().stream().sorted(Comparator.comparing(player -> player.getSkillRate(), Comparator.reverseOrder())))
+                .collect(Collectors.toList()).get(0);
+
+        return topPlayer;
     }
 
     /**
