@@ -60,8 +60,7 @@ public class LeagueStatistics {
      * Gets a player with the biggest goals number from each team.
      */
     public static List<Player> getTopPlayersFromEachTeam(List<Team> teams) {
-        List<Player> topPlayers = new ArrayList<>();
-        teams.stream().forEach(team -> topPlayers.add(team.getBestPlayer()));
+        List<Player> topPlayers = teams.stream().map(team -> team.getBestPlayer()).collect(Collectors.toList());
         return topPlayers;
     }
 
